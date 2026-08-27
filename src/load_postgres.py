@@ -1,9 +1,16 @@
+import os
 import psycopg2
-from config import DATABASE_URL
+
+try:
+    from config import DATABASE_URL
+except ImportError:
+    DATABASE_URL = os.environ["DATABASE_URL"]
+
 
 def conectar():
     conexao = psycopg2.connect(DATABASE_URL)
     return conexao
+
 
 def carregar_eventos(eventos):
     conexao = conectar()
@@ -35,7 +42,9 @@ def carregar_eventos(eventos):
             evento["url_detalhe"],
             evento["duplicata_de"],
         )
+
         cursor.execute(comando_sql, valores)
+
         quantidade_inserida = quantidade_inserida + cursor.rowcount
 
     conexao.commit()

@@ -1,6 +1,5 @@
 name: Ingestao diaria de dados sismicos
 
-
 on:
   schedule:
     - cron: "0 6 * * *"
@@ -22,8 +21,7 @@ jobs:
       - name: Instalar dependencias
         run: pip install -r requirements.txt
 
-      - name: Criar config.py com a connection string
-        run: echo "DATABASE_URL = '${{ secrets.DATABASE_URL }}'" > src/config.py
-
       - name: Rodar ingest.py
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: python src/ingest.py
