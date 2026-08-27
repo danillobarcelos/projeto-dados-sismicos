@@ -1,6 +1,7 @@
 from fetch_usgs import fetch_usgs_events
 from fetch_usp import fetch_usp_events
-from datetime import datetime
+from load_postgres import carregar_eventos
+from datetime import datetime, timedelta, timezone
 import csv
 
 def validar_eventos(evento_a, evento_b):
@@ -15,7 +16,11 @@ def validar_eventos(evento_a, evento_b):
     LIMITES_SEGUNDOS = 30
     LIMITES_GRAUS = 0.5
 
-    if diferenca_tempo <= LIMITES_SEGUNDOS and diferenca_latitude <= LIMITES_GRAUS and diferenca_longitude <= LIMITES_GRAUS:
+    if (
+        diferenca_tempo <= LIMITES_SEGUNDOS 
+        and diferenca_latitude <= LIMITES_GRAUS 
+        and diferenca_longitude <= LIMITES_GRAUS
+    ):
         return True
 
     return False
@@ -67,8 +72,13 @@ def salvar_csv(eventos, caminho_arquivo):
     print("Arquivo salvo em: " + caminho_arquivo)
 
 if __name__ == "__main__":
-    data_inicio = "2026-08-01"
-    data_fim = "2026-08-24"
+
+    hoje_utc = datetime.now(timezone.utc).date()
+    tres_dias_atras = hoje_utc - timedelta(days=3)
+
+
+    data_inicio = tres_dias_atras.strftime("%Y-%m-%d")
+    data_fim = hoje_utc.strftime("%Y-%m-%d")
  
     eventos_usgs = fetch_usgs_events(start_time=data_inicio, end_time=data_fim, min_magnitude=2.5)
     eventos_usp = fetch_usp_events(start_time=data_inicio, end_time=data_fim)
@@ -84,3 +94,4 @@ if __name__ == "__main__":
     print("")
  
     salvar_csv(eventos_combinados, "eventos_sismicos.csv")
+    carregar_eventos(eventos_combinados)

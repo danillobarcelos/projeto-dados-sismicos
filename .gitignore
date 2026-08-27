@@ -1,2 +1,3 @@
 config.py
-*.csv
+*.csv__pycache__/
+*.pyc

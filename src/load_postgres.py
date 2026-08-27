@@ -5,7 +5,7 @@ def conectar():
     conexao = psycopg2.connect(DATABASE_URL)
     return conexao
 
-def carregar_eventos():
+def carregar_eventos(eventos):
     conexao = conectar()
     cursor = conexao.cursor()
 
@@ -35,10 +35,8 @@ def carregar_eventos():
             evento["url_detalhe"],
             evento["duplicata_de"],
         )
-
-    cursor.execute(comando_sql, valores)
-
-    quantidade_inserida = quantidade_inserida + cursor.rowcount
+        cursor.execute(comando_sql, valores)
+        quantidade_inserida = quantidade_inserida + cursor.rowcount
 
     conexao.commit()
 
