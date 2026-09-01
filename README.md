@@ -66,6 +66,6 @@ O workflow em `.github/workflows/ingest.yml` roda todos os dias às 06:17 UTC, b
 
 ## Autor
 
-**Danillo Barcelos** — [github.com/danillobarcelos](https://github.com/danillobarcelos)
+**Danillo Barcelos** — [github.com/danillobarcelos](https://github.com/danillobarcelos) — [linkedin.com/in/danillobarcelos](https://www.linkedin.com/in/danillobarcelos/) 
 
 Projeto construído como parte da minha transição de carreira para Engenharia/Análise de Dados.
